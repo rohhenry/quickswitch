@@ -2,4 +2,4 @@
 
 Alt-Tab with the flick of the wrist
 
-Adjust the constants in main file for personalization
+Adjust the constants in quickswitch.pyw for personalization
