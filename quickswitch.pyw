@@ -2,6 +2,8 @@ import time
 import pynput
 import math
 import threading
+import getpass
+import os
 
 lock = False
 
@@ -19,8 +21,8 @@ def distance(p1, p2):
 
 def quickSwitch():
     global lock
-    with keyboard.pressed(pynput.keyboard.Key.alt):
-        if not lock:
+    if not lock:
+        with keyboard.pressed(pynput.keyboard.Key.alt):
             keyboard.press(pynput.keyboard.Key.tab)
             keyboard.release(pynput.keyboard.Key.tab)
             threading.Timer(LOCK_DURATION, unlock)
@@ -44,12 +46,23 @@ def on_click(x, y, button, pressed):
 #CONSTANTS
 THRESHOLD = 400 #pixels
 SAMPLERATE = 10 #ms
-LOCK_DURATION  = 0.5 #s
+LOCK_DURATION  = 0.8 #s
 
 keyboard = pynput.keyboard.Controller()
 mouse = pynput.mouse.Controller()
 ppos = mouse.position
 ptime = getTime()
+
+
+USER_NAME = getpass.getuser()
+
+def add_to_startup():
+    bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
+    with open(bat_path + '\\' + "open.bat", "w+") as bat_file:
+        bat_file.write("start " +  __file__ + "w")
+
+#WINDOWS ONLY
+add_to_startup()
 
 with pynput.mouse.Listener(on_move=on_move, on_click=on_click) as listener:
     print("quickswitcher now listening press MOUSE_BUTTON_3 to exit")
